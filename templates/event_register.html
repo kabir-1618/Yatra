@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset=" utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Event Register</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="{% static 'event_register.css' %}"
+      type="text/css"
+      media="screen"
+    />
+  </head>
+  <body>
+        <div class="">
+          <div class="logos">
+            <img class="img1" src="../static/logos/logo1.png" />
+            <img class="img2" src="../static/logos/rec-logo.png" />
+          </div>
+          <div class="form">
+            <div class="">
+              <h1 class="">
+                Register Event 
+              </h1>
+            </div>
+            <form action="" method="post">
+              <div class="">
+                {% csrf_token %} 
+                
+                <p>Name : {{name}}</p>
+                <p>Category : {{category}}</p>
+                <!-- <p>Description : </p>
+                <p class="input" style="padding:0.5rem;"> {{description}}</p>
+                <p>Rules:</p>
+                
+                <pre><div class="input ruletext">{{rules}}</div>
+              </pre> -->
+            
+                {% if registrations >= max_reg %} Registrations Closed {% endif %}
+                {% if not has_ticket %} You Don't have Day {{day}} ticket {% endif %} 
+                {% if already_registered %} You have already Registered 
+                {% endif %}
+              </div>
+              {% if upload %}
+              <div class="input">
+                <input class="input"
+                  type="text"
+                  name="upload"
+                  placeholder="Upload"
+                />
+              </div>
+              {% endif %} {% if team_event and not already_registered and has_ticket %}
+              <div class="input-container ic2">
+                <input
+                  class="input"
+                  type="text"
+                  name="teamName"
+                  placeholder=" "
+                />
+                <div class="cut cut-short"></div>
+            <label for="teamName" class="placeholder">Team Name</label>
+          
+              </div>
+              {% for i in lst %}
+              <div class="input-container ic2">
+                <input
+                  class="input"
+                  type="text"
+                  name="teamMatesMailId{{i}}"
+                  placeholder=" "
+                />
+                <div class="cut cut-short"></div>
+            <label for="teamMatesMailId{{i}}" class="placeholder">{{i}}. Teammate's registered email</label>
+         
+              </div>
+              {% endfor %} {% endif %}
+              {% if show %}
+              <p>
+                Either your team mate has not registered or he has not bought a
+                ticket for the day
+              </p>
+              {% endif %} {% if show1 %}
+              <p>At least {{show1}} team mates should be there</p>
+              {% endif %} 
+
+              <p>{{message}}</p>
+
+              {% if not register_there %}
+                <p>No need for registrations, you can come and participate on the day of events</p>
+              {% endif %}
+              
+              {% if pay == 0 and not already_registered and has_ticket and registrations < max_reg and register_there %}
+
+              <div class="">
+                <input
+                  class="submit"
+                  type="submit"
+                  value="Register"
+                />
+              </div>
+              {% endif %}
+              {% if pay != 0 and not already_registered and has_ticket and registrations < max_reg and register_there %}
+
+              <input
+                  class="submit"
+                  type="submit"
+                  value="Register"
+              />
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

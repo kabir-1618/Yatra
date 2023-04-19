@@ -1,0 +1,64 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset=" utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Merch </title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'mainevent.css'%}" type="text/css" media="screen">
+</head>
+
+<body>
+    <div class="">
+        <div class="logos">
+            <img class="img1" src="../static/logos/logo1.png" />
+            <img class="img2" src="../static/logos/rec-logo.png" />
+        </div>
+        <div class="form">
+            <div class="title"> Recharge Merch</div>
+            <div class="subtitle">The official Recharge T-Shirts are now ready for sale. </div>
+            <div class="subtitle">Grab one now at just Rs. 365!</div>
+            <form class="" action="" method="post">
+                <div class="input-container">
+                    {% csrf_token %}
+                    {% if s %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="S">
+                        <label for="day1" class="">S </label><br>
+                    </div>
+                    {% endif %}
+                    {% if m %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="M">
+                        <label for="day2" class="">M</label><br>
+                    </div>
+                    {% endif %}
+                    {% if l %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="L">
+                        <label for="day3" class="">L</label><br>
+                    </div>
+                    {% endif %}
+                    {% if xl %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="XL">
+                        <label for="combo" class="">XL</label>
+                    </div>
+                    {% endif %}
+                {{message}}
+                </div>
+                {% if s or m or l or xl %}
+                <input class="submit " type="submit" value="PAY NOW">
+                {% endif %}
+
+                {% if not s and not m and not l and not xl %}
+                <p>All T-shirts sold.</p>
+                {% endif %}
+                
+    </div>
+    </div>
+</body>
+
+</html>

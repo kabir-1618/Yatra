@@ -1,0 +1,84 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset=" utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> ProShow Ticket </title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'mainevent.css'%}" type="text/css" media="screen">
+</head>
+
+<body>
+    <div class="">
+        <div class="logos">
+            <img class="img1" src="../static/logos/logo1.png" />
+            <img class="img2" src="../static/logos/rec-logo.png" />
+        </div>
+        <div class="form">
+            <div class="title"> Main Event Register </div>
+            <div class="subtitle">Book your tickets now!</div>
+            <!-- <div class="subtitle">Early Bird Prices (25% Hike after 19th March)</div> -->
+            
+            <form class="" action="" method="post">
+                <div class="input-container">
+                    {% csrf_token %}
+                    {% if not rec %}
+                    {% if day1 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="1">
+                        <label for="day1" class="">Day 1 STANDARD(Rs 775) </label><br>
+                    </div>
+                    {% endif %}
+                    {% if day2 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="2">
+                        <label for="day2" class="">Day 2 STANDARD(Rs 775)</label><br>
+                    </div>
+                    {% endif %}
+                    {% if show %}
+                    <input class="submit " type="submit" value="PAY NOW">
+                    {% endif %}
+                    <div class="subtitle">* Please do not close or refresh any tabs until you are redirected back to your dashboard after payment.</div>
+                {% endif %}
+
+
+                <div class="input-container input">
+                {% if rec %}
+                {% comment %} {% if day1 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="1">
+                        <label for="day1" class="">Download Day 1 Ticket </label><br>
+                    </div>
+                    {% endif %}
+                    {% if day2 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="2">
+                        <label for="day2" class="">Download Day 2 Ticket </label><br>
+                    </div>
+                    {% endif %} {% endcomment %}
+                {% if show %}
+                <input class="submit " type="submit" value="Download Tickets">
+                {% endif %}
+                
+                {% endif %}
+
+                
+           
+        </div>
+        {% if not show %}
+        You Already bought all the tickets
+        {% endif %}
+
+        {% if  invalid %}
+        Please select an option before proceeding for payment.
+        {% endif %}
+        </form>
+    </div>
+
+    </div>
+    </div>
+</body>
+
+</html>

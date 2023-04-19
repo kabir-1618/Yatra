@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset=" utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="{%static 'login.css'%}"
+      type="text/css"
+      media="screen"
+    />
+  </head>
+
+  <body>
+    <div class="class">
+      <div class="logos">
+        <img class="img1" src="../static/logos/logo1.png" />
+        <img class="img2" src="../static/logos/rec-logo.png" />
+      </div>
+      <div class="form">
+        <div class="title">Resend verification email</div>
+        <div class="subtitle">Enter your registered email</div>
+
+        <form class="" action="" method="post">
+          <div class="input-container">
+            {% csrf_token %}
+            <input
+              class="input"
+              type="text"
+              name="email"
+              placeholder="Email address"
+              value="{{email}}"
+            />
+            <br />
+            {% if show == 1 %}
+            <p>Invalid email</p>
+            {% endif %}
+          </div>
+          <div class="">
+            <input class="submit" type="submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+requests
+Django
+qrcode
+djangorestframework
+django-cors-headers
+django-tailwind
+PyJWT
+instamojo_wrapper
+Pillow
+pandas

@@ -1,0 +1,13 @@
+Pages
+1.) Registration (/register) krishna done
+2.) Login (/login) krishna done
+3.) Dashboard (/test) krishna done
+4.) ForgotPassword (/forgotpassword) krishna done
+5.) ResendMail (/resendmail) tharun done
+6.) MainEvent (/mainevent) tharun done
+7.) EventRegistration (/events/*) tharun done
+
+Mail
+1.) Mail verification (/verify_email) 
+2.) Change password
+3.) Ticket / QR code

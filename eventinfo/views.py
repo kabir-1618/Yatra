@@ -292,7 +292,7 @@ def export_users(request):
    
    # Create a CSV writer and write your data to it
    writer = csv.writer(response)
-   writer.writerow(["id","name", "regno","year", "mail", "department","college", "token", "verified"])
+   writer.writerow(["id","name", "regno","year", "mail","mobile no", "department","college", "token", "verified"])
    # writer.writerow(['Name', 'Age'])
    for item in data:
       writer.writerow([str(item[i]) for i in item if i!="password"])
@@ -398,7 +398,7 @@ def export_event_users(request):
       
       # Create a CSV writer and write your data to it
       writer = csv.writer(response)
-      writer.writerow(["id","name", "regno","year", "mail", "department","college", "token", "verified"])
+      writer.writerow(["id","name", "regno","year", "mail", "mobile no","department","college", "token", "verified"])
       # writer.writerow(['Name', 'Age'])
       for item in data1:
          writer.writerow([str(item[i]) for i in item if i!="password"])
@@ -461,7 +461,7 @@ def maineventdata(request):
    
    # Create a CSV writer and write your data to it
    writer = csv.writer(response)
-   writer.writerow(["name", "regno", "year", "email", "dept", "collegename", "token", "is_verified","id", "day1","day2", "day3", "combo","day1scan", "day2scan", "day3scan","day1Image", "day2Image", "day3Image","premium1", "premium2", "premium3"])
+   writer.writerow(["name", "regno", "year", "email", "mobile no","dept", "collegename", "token", "is_verified","id", "day1","day2", "day3", "combo","day1scan", "day2scan", "day3scan","day1Image", "day2Image", "day3Image","premium1", "premium2", "premium3"])
    # writer.writerow(['Name', 'Age'])
    for item in d:
       writer.writerow([str(item[i]) for i in item])

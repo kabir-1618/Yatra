@@ -15,8 +15,9 @@
   <body>
         <div class="">
           <div class="logos">
-            <img class="img1" src="../static/logos/logo1.png" />
             <img class="img2" src="../static/logos/rec-logo.png" />
+            <img class="img1" src="../static/logos/logo1.png" />
+           
           </div>
           <div class="form">
             <div class="">
@@ -34,9 +35,11 @@
                 <p class="input" style="padding:0.5rem;"> {{description}}</p>
                 <p>Rules:</p>
                 
-                <pre><div class="input ruletext">{{rules}}</div>
+                
               </pre> -->
-            
+              <pre><div class="input ruletext">{{rules}}</div></pre>
+              <pre><div class="input ruletext">{{prize}}</div></pre>
+              
                 {% if registrations >= max_reg %} Registrations Closed {% endif %}
                 {% if not has_ticket %} You Don't have Day {{day}} ticket {% endif %} 
                 {% if already_registered %} You have already Registered 

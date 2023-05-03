@@ -7,11 +7,18 @@ class UserAdmin(admin.ModelAdmin):
     search_fields=["name", "regno", "email", "phoneno"]
     list_display = ['name', 'regno', 'email', 'year', "phoneno"]
 
-admin.site.register(Event)
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    search_fields=["name"]
+    list_display = ['name', 'category', 'pay']
+    list_filter = ("day",)
+
 @admin.register(MainEvent)
 class MainEventAdmin(admin.ModelAdmin):
     search_fields=["email"]
     list_display = ['email', 'day1', 'day2', 'day3']
+
+
 admin.site.register(EventRegister)
 admin.site.register(TeamMates)
 admin.site.register(ForgotPassword)

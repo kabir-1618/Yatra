@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-jq9o&z^y5o*5t_h$$r4chx0iicr(+3ulgt6wc_vlmzp*+1qy=f
 DEBUG = False
 
 # ALLOWED_HOSTS = ["31.220.59.227", "rec.rechargefest.org"]
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["ticket.rityatra.com", "45.90.109.12"]
 
 
 # Application definition
@@ -157,30 +157,7 @@ EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = 'yatratickets1@ritchennai.edu.in'
 EMAIL_HOST_USER = 'tickets9.yatra@ritchennai.edu.in'
 EMAIL_HOST_PASSWORD="RIT@2023"
-# EMAIL_HOST_PASSWORD="YTRit@2023$"
-# EMAIL_HOST_PASSWORD = 'dcchpybxvkrdexxj'   # 1
-# EMAIL_HOST_PASSWORD="lpulugwtavhycubm"     # 2
 
-# EMAIL_HOST_PASSWORD="RCRec@2023$4"     # 4
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 5
-# EMAIL_HOST_PASSWORD="hpnifvgmbuovyvxt"     # 6
-# EMAIL_HOST_PASSWORD="kzzafvznrqqtvxqp"     # 7
-# EMAIL_HOST_PASSWORD="ekubvlramvqxhyrk"     # 8
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 9
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 10
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 11
-# EMAIL_HOST_PASSWORD="tkvfzwammmsjiboq"     # 12
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 13
-# EMAIL_HOST_PASSWORD="kgmffyanrmjyewue"     # 14
-# EMAIL_HOST_PASSWORD="hooclftrflupbvfe"     # 15
-# EMAIL_HOST_PASSWORD="jjhuqzxjxsbhwata"     # 16
-# EMAIL_HOST_PASSWORD="kpbcxobfwomemfte"     # 17
-# EMAIL_HOST_PASSWORD="ypyykwgrrvcxpvna"     # 18
-# EMAIL_HOST_PASSWORD="wywzxkzbrmucpmhj"     # 19
-# EMAIL_HOST_PASSWORD="jpnkwgdwjdtgnbqa"     # 20
-
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 21
-# EMAIL_HOST_PASSWORD="RCRec@2023$"     # 22
 TAILWIND_APP_NAME = 'theme'
 
 # SECURE_SSL_REDIRECT = True

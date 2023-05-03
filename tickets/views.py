@@ -19,7 +19,7 @@ import os
 from PIL import Image
 import traceback  
 
-url="localhost:8000"
+url="ticket.rityatra.com"
 
 def logout(request):
     try:
@@ -35,17 +35,35 @@ def send_mail_func(email, path, path_ticket, day, t=False):
     u=User.objects.filter(email=email)
     name=u[0].name
     if t:
-        s=f'''Dear {name}, \nThank you for purchasing your Proshow pass for Recharge 2023. We are super excited for you to witness the biggest cultural extravaganza of the season. So get ready to reignite, rejuvenate and revivify the REC way! Until then, stay charged.\n\n1. Participants of Recharge 2023 must carry their institution’s ID along with any of their government issued ID cards on the days of the fest (Aadhaar Card / PAN Card / Driving License, etc.)
+        s=f'''Dear {name},
+Thank you for being a part of YATRA'23 .We can't wait to share this incredible journey with you and create unforgettable memories together. So get ready to embark into the Blissventure.
+
+Kindly note:
+1. Participants of YATRA'23 must carry their institution’s ID along with any of their government issued ID cards on the days of the fest (Aadhaar Card / PAN Card / Driving License, etc.)
 2. Participants are required to have their registration QR codes with them at all times.
-3. Participants must wear their wristband at all times during the day and can only take it off after the conclusion of the proshow events.
+3. Participants must wear their wristband at all times during the day and can only take it off after the conclusion of the pro show events.
 4. Participants are prohibited from bringing alcohol, cigarettes and other narcotic substances to the fest. If found, the person will be evicted from the fest immediately and their passes will be canceled.
-5. The Management is not responsible for any loss of personal belongings of the participants.\n\n Please find the Premium ticket for Day {day}\n\nRegards,\nTeam Recharge'''
+5. The Management is not responsible for any loss of personal belongings of the participants.
+
+ Please find the ticket premium for Day {day}
+
+Regards,
+Team YATRA'''
     else:
-        s=f'''Dear {name}, \nThank you for purchasing your Proshow pass for Recharge 2023. We are super excited for you to witness the biggest cultural extravaganza of the season. So get ready to reignite, rejuvenate and revivify the REC way! Until then, stay charged.\n\n1. Participants of Recharge 2023 must carry their institution’s ID along with any of their government issued ID cards on the days of the fest (Aadhaar Card / PAN Card / Driving License, etc.)
+        s=f'''Dear {name},
+Thank you for being a part of YATRA'23 .We can't wait to share this incredible journey with you and create unforgettable memories together. So get ready to embark into the Blissventure.
+
+Kindly note:
+1. Participants of YATRA'23 must carry their institution’s ID along with any of their government issued ID cards on the days of the fest (Aadhaar Card / PAN Card / Driving License, etc.)
 2. Participants are required to have their registration QR codes with them at all times.
-3. Participants must wear their wristband at all times during the day and can only take it off after the conclusion of the proshow events.
+3. Participants must wear their wristband at all times during the day and can only take it off after the conclusion of the pro show events.
 4. Participants are prohibited from bringing alcohol, cigarettes and other narcotic substances to the fest. If found, the person will be evicted from the fest immediately and their passes will be canceled.
-5. The Management is not responsible for any loss of personal belongings of the participants.\n\n Please find the ticket for Day {day}\n\nRegards,\nTeam Recharge'''
+5. The Management is not responsible for any loss of personal belongings of the participants.
+
+ Please find the ticket for Day {day}
+
+Regards,
+Team YATRA'''
     emailsend = EmailMessage(
     f'Ticket for Day {day}', 
     s, 
@@ -167,7 +185,10 @@ def register(request):
             year=year, password=password, token=verification_token, is_verified=False)
             send_mail(
                 'Verify your email',
-                f'You have successfully created an account. Click this link to verify your email: {verification_url}\n\nRegards,\nTeam Recharge',
+                f'''You have successfully created an account. Click this link to verify your email:
+                        {verification_url}
+Regards,
+Team YATRA''',
                 settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=False,
@@ -177,7 +198,7 @@ def register(request):
             return redirect("login")
         return render(request, "register.html",d)
     except:
-        return HttpResponse("<h1>Unexpected Error</h1>")
+        return HttpResponse("<h1>Invalid Email.</h1>")
 
 
 def forgotpassword(request):
@@ -217,7 +238,7 @@ def forgotpassword(request):
 
             send_mail(
                 'Change Password',
-                f'Click on this link to Change your password: {verification_url}\n\nRegards,\nTeam Recharge',
+                f'Click on this link to Change your password: {verification_url}\n\nRegards,\nTeam YATRA',
                 settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=False,
@@ -324,10 +345,10 @@ def test(request):
         d["day1_events"] = []
         d["day2_events"]=[]
         d["day3_events"]=[]
-        if d["day2"]:
-            d["day2_events"]=Event.objects.filter(day=2)
-        if d['day3']:
-            d["day3_events"]=Event.objects.filter(day=3)
+        if d["day1"]:
+            d["day2_events"]=Event.objects.filter(day=1)
+        if d['day2']:
+            d["day3_events"]=Event.objects.filter(day=2)
 
         d["events"]=events
         d["eventslist"] = Event.objects.all()
@@ -355,7 +376,7 @@ def resendmail(request):
 
             send_mail(
                 'Verify your email',
-                f'Click on this link to verify your email: {verification_url}\n\nRegards,\nTeam Recharge',
+                f'Click on this link to verify your email: {verification_url}\n\nRegards,\nTeam YATRA',
                 settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=True,
@@ -402,7 +423,7 @@ def event(request, id):
         d["id"]=temp.id
         d["name"]=temp.name
         d["category"]=temp.category
-        d["rules"]="- "+temp.rules.strip().replace("\n", "\n\n- ")
+        d["rules"]="- "+temp.rules.strip().replace(r"\n", "\n\n- ")
         d["pay"]=temp.pay
         d["description"]=temp.description
         d["team_event"]=temp.team_event
@@ -416,6 +437,7 @@ def event(request, id):
         d["show"]=False
         d["message"]=""
         d["show1"]=False
+        d["prize"]="- "+temp.prize.strip().replace(r"\n", "\n\n- ")
         d["register_there"]=True
         if d["pay"]==-1:
             d["register_there"]=False
@@ -710,17 +732,22 @@ def mainevent(request):
             d={}
             d["invalid"]=False
             day=request.POST.get("day")
-            if not day or not day.isnumeric() or int(day)>2:
-                d["invalid"]=True
+            if not day or not day.isnumeric() or int(day)>6:
                 x=MainEvent.objects.filter(email=email)
                 if x:
                     d["day1"]=not x[0].day1
                     d["day2"]=not x[0].day2
+                    d["premium1"] = not x[0].premium1
+                    d["premium2"] = not x[0].premium2
+                    
                 else:
                     d["day1"]=True
                     d["day2"]=True
+                    d["premium1"] = True
+                    d["premium2"] = True
                 d["rec"]=rec
                 d["show"]=True
+                d["invalid"]=True
                 return render(request, "mainevent_register.html", d)
             x=MainEvent.objects.filter(email=email)
             if x:
@@ -745,10 +772,10 @@ def mainevent(request):
                     # if payment_url is None:
                     #     return HttpResponse("<h1>Koi error agaya re sorry yaar</h1>")
                     # return redirect(payment_url)
-                    return HttpResponse("<h1>No normal Day 1 Ticket for REC students</h1>")
+                    return HttpResponse("<h1>No normal Day 1 Ticket for RIT students</h1>")
                 else:
                     # amount = 775
-                    amount = 10
+                    amount = 250
                     purpose = 'Day 1 Ticket'
 
                     # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
@@ -766,10 +793,10 @@ def mainevent(request):
                     # if payment_url is None:
                     #     return HttpResponse("<h1>Koi error agaya re sorry yaar</h1>")
                     # return redirect(payment_url)
-                    return HttpResponse("<h1>No normal Day 2 Ticket for REC students</h1>")
+                    return HttpResponse("<h1>No normal Day 2 Ticket for RIT students</h1>")
                 else:
                     # amount = 7s75
-                    amount = 10
+                    amount = 250
                     purpose = 'Day 2 Ticket'
 
                     # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
@@ -798,17 +825,17 @@ def mainevent(request):
             #         if payment_url is None:
             #             return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
             #         return redirect(payment_url)
-            # elif day==4 and d["day1"] and d["day2"] and d["day3"]:
-            #     if rec:
-            #         amount = 525
-            #         # amount = 10
-            #         purpose = 'Combo Ticket REC'
+            elif day==4 and d["day1"] and d["day2"]:
+                if rec:
+                    amount = 250
+                    # amount = 10
+                    purpose = 'Combo Ticket RIT'
 
-            #         # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-            #         payment_url = instamojo_api.payment_request(email, amount, purpose)
-            #         if payment_url is None:
-            #             return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-            #         return redirect(payment_url)
+                    # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                    payment_url = instamojo_api.payment_request(email, amount, purpose)
+                    if payment_url is None:
+                        return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                    return redirect(payment_url)
             #     else:
             #         amount = 1650
             #         # amount = 10
@@ -819,50 +846,50 @@ def mainevent(request):
             #         if payment_url is None:
             #             return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
             #         return redirect(payment_url)
-            # elif day==5 :
-            #     if rec:
-            #         amount = 1550
-            #         # amount = 10
-            #         purpose = 'Fanpit Day 1 Ticket REC'
+            elif day==5 :
+                if rec:
+                    amount = 1500
+                    # amount = 10
+                    purpose = 'Fanpit Day 1 Ticket RIT'
 
-            #         # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-            #         payment_url = instamojo_api.payment_request(email, amount, purpose)
-            #         if payment_url is None:
-            #             return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-            #         return redirect(payment_url)
-            #     else:
-            #         if d["day1"]:
-            #             amount = 1550
-            #             # amount = 10
-            #             purpose = 'Fanpit Day 1 Ticket'
+                    # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                    payment_url = instamojo_api.payment_request(email, amount, purpose)
+                    if payment_url is None:
+                        return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                    return redirect(payment_url)
+                else:
+                    if d["day1"]:
+                        amount = 1500
+                        # amount = 10
+                        purpose = 'Fanpit Day 1 Ticket'
 
-            #             # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-            #             payment_url = instamojo_api.payment_request(email, amount, purpose)
-            #             if payment_url is None:
-            #                 return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-            #             return redirect(payment_url)
-            # elif day==6:
-            #     if rec:
-            #         amount = 1550
-            #         # amount = 10
-            #         purpose = 'Fanpit Day 2 Ticket REC'
+                        # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                        payment_url = instamojo_api.payment_request(email, amount, purpose)
+                        if payment_url is None:
+                            return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                        return redirect(payment_url)
+            elif day==6:
+                if rec:
+                    amount = 1500
+                    # amount = 10
+                    purpose = 'Fanpit Day 2 Ticket RIT'
 
-            #         # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-            #         payment_url = instamojo_api.payment_request(email, amount, purpose)
-            #         if payment_url is None:
-            #             return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-            #         return redirect(payment_url)
-            #     else:
-            #         if d["day2"]:
-            #             amount = 1550
-            #             # amount = 10
-            #             purpose = 'Fanpit Day 2 Ticket'
+                    # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                    payment_url = instamojo_api.payment_request(email, amount, purpose)
+                    if payment_url is None:
+                        return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                    return redirect(payment_url)
+                else:
+                    if d["day2"]:
+                        amount = 1500
+                        # amount = 10
+                        purpose = 'Fanpit Day 2 Ticket'
 
-            #             # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-            #             payment_url = instamojo_api.payment_request(email, amount, purpose)
-            #             if payment_url is None:
-            #                 return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-            #             return redirect(payment_url)
+                        # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                        payment_url = instamojo_api.payment_request(email, amount, purpose)
+                        if payment_url is None:
+                            return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                        return redirect(payment_url)
             # elif day==7:
             #     if rec:
             #         amount = 1550
@@ -914,15 +941,19 @@ def mainevent(request):
         if x:
             d["day1"]=not x[0].day1
             d["day2"]=not x[0].day2
+            d["premium1"] = not x[0].premium1
+            d["premium2"] = not x[0].premium2
             
         else:
             d["day1"]=True
             d["day2"]=True
+            d["premium1"] = True
+            d["premium2"] = True
         d["rec"]=rec
         d["show"]=True
         d["invalid"]=False
         if rec:
-            if not d["day1"] and not d["day2"]:
+            if not d["day1"] and not d["day2"] and not d["premium1"] and not d["premium2"]:
                 d["show"]=False
         else:
             if not d["day1"] and not d["day2"]:
@@ -1149,131 +1180,129 @@ def payment(request):
                 elif day=='3':
                     m=MainEvent(email=email, day3=True, day3Image=path)
                 m.save()
-        # elif purpose[:5]=="Combo":
-        #     print("Combo")
-        #     x=MainEvent.objects.filter(email=email)
-        #     print(x)
-        #     if x:
-        #         m = MainEvent.objects.get(email=email)
-        #         m.day1=True
-        #         m.day2=True
-        #         m.day3=True
-        #         m.combo=True
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day1"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path1 = r"static/tickets/"+data+".png"
-        #         img.save(path1)
-        #         img2 = Image.open(path1)
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path1)
-        #         path_ticket1 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day1_standard.png")
-        #         img2 = Image.open(path1)
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         img1.save(path_ticket1)
-        #         send_mail_func(email=email, path=path1,path_ticket=path_ticket1, day=1)
+        elif purpose[:5]=="Combo":
+            print("Combo")
+            x=MainEvent.objects.filter(email=email)
+            print(x)
+            if x:
+                m = MainEvent.objects.get(email=email)
+                m.day1=True
+                m.day2=True
+                m.combo=True
+                qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                data = email+"day1"+get_random_string(length=8)
+                qr.add_data(data)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                path1 = r"static/tickets/"+data+".png"
+                img.save(path1)
+                # img2 = Image.open(path1)
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path1)
+                path_ticket1 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                # img2 = Image.open(path1)
+                # img1.paste(img2, (80, 160), mask=img2)
+                # img1.save(path_ticket1)
+                send_mail_func(email=email, path=path1,path_ticket=path_ticket1, day=1)
 
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day2"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path2 = r"static/tickets/"+data+".png"
-        #         img.save(path2)
-        #         img2 = Image.open(path2)
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path2)
-        #         path_ticket2 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day2_standard.png")
-        #         img2 = Image.open(path2)
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         img1.save(path_ticket2)
-        #         send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
+                qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                data = email+"day2"+get_random_string(length=8)
+                qr.add_data(data)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                path2 = r"static/tickets/"+data+".png"
+                img.save(path2)
+                # img2 = Image.open(path2)
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path2)
+                path_ticket2 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                # img2 = Image.open(path2)
+                # img1.paste(img2, (80, 160), mask=img2)
+                # img1.save(path_ticket2)
+                send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
 
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day3"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path3 = r"static/tickets/"+data+".png"
-        #         img.save(path3)
-        #         img2 = Image.open(path3)
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path3)
-        #         path_ticket3 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day3_standard.png")
-        #         img2 = Image.open(path3)
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         img1.save(path_ticket3)
-        #         send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
-        #         m.day1Image=path1
-        #         m.day2Image=path2
-        #         m.day3Image=path3
-        #         m.save()
-        #     else:
-        #         # print("Here")
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day1"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path1 = r"static/tickets/"+data+".png"
-        #         img.save(path1)
-        #         # print("Some error")
-        #         img2 = Image.open(path1)
-        #         # print("Some error")
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path1)
-        #         # print("Some error")
-        #         path_ticket1 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day1_standard.png")
-        #         # print("Some error")
-        #         img2 = Image.open(path1)
-        #         # print("Some error")
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         # print("Some error")
-        #         img1.save(path_ticket1)
-        #         # print("Some error")
-        #         send_mail_func(email=email, path=path1,path_ticket=path_ticket1, day=1)
+                # qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                # data = email+"day3"+get_random_string(length=8)
+                # qr.add_data(data)
+                # qr.make(fit=True)
+                # img = qr.make_image(fill_color="black", back_color="white")
+                # path3 = r"static/tickets/"+data+".png"
+                # img.save(path3)
+                # img2 = Image.open(path3)
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path3)
+                # path_ticket3 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day3_standard.png")
+                # img2 = Image.open(path3)
+                # img1.paste(img2, (80, 160), mask=img2)
+                # img1.save(path_ticket3)
+                # send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
+                m.day1Image=path1
+                m.day2Image=path2
+                m.save()
+            else:
+                # print("Here")
+                qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                data = email+"day1"+get_random_string(length=8)
+                qr.add_data(data)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                path1 = r"static/tickets/"+data+".png"
+                img.save(path1)
+                # print("Some error")
+                # img2 = Image.open(path1)
+                # # print("Some error")
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path1)
+                # print("Some error")
+                path_ticket1 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                # # print("Some error")
+                # img2 = Image.open(path1)
+                # # print("Some error")
+                # img1.paste(img2, (80, 160), mask=img2)
+                # # print("Some error")
+                # img1.save(path_ticket1)
+                # print("Some error")
+                send_mail_func(email=email, path=path1,path_ticket=path_ticket1, day=1)
 
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day2"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path2 = r"static/tickets/"+data+".png"
-        #         img.save(path2)
-        #         img2 = Image.open(path2)
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path2)
-        #         path_ticket2 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day2_standard.png")
-        #         img2 = Image.open(path2)
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         img1.save(path_ticket2)
-        #         send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
+                qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                data = email+"day2"+get_random_string(length=8)
+                qr.add_data(data)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                path2 = r"static/tickets/"+data+".png"
+                img.save(path2)
+                # img2 = Image.open(path2)
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path2)
+                path_ticket2 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                # img2 = Image.open(path2)
+                # img1.paste(img2, (80, 160), mask=img2)
+                # img1.save(path_ticket2)
+                send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
 
-        #         qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #         data = email+"day3"+get_random_string(length=8)
-        #         qr.add_data(data)
-        #         qr.make(fit=True)
-        #         img = qr.make_image(fill_color="black", back_color="white")
-        #         path3 = r"static/tickets/"+data+".png"
-        #         img.save(path3)
-        #         img2 = Image.open(path3)
-        #         new_image = img2.resize((274, 272))
-        #         new_image.save(path3)
-        #         path_ticket3 = r"static/main_ticket/"+data+".png"
-        #         img1 = Image.open(r"static/ticket_template/day3_standard.png")
-        #         img2 = Image.open(path3)
-        #         img1.paste(img2, (80, 160), mask=img2)
-        #         img1.save(path_ticket3)
-        #         send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
-        #         m=MainEvent(email=email, day1=True, day2=True, day3=True, day1Image=path1, day2Image=path2, day3Image=path3, combo=True)
-        #         m.save()
+                # qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                # data = email+"day3"+get_random_string(length=8)
+                # qr.add_data(data)
+                # qr.make(fit=True)
+                # img = qr.make_image(fill_color="black", back_color="white")
+                # path3 = r"static/tickets/"+data+".png"
+                # img.save(path3)
+                # img2 = Image.open(path3)
+                # new_image = img2.resize((274, 272))
+                # new_image.save(path3)
+                # path_ticket3 = r"static/main_ticket/"+data+".png"
+                # img1 = Image.open(r"static/ticket_template/day3_standard.png")
+                # img2 = Image.open(path3)
+                # img1.paste(img2, (80, 160), mask=img2)
+                # img1.save(path_ticket3)
+                # send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
+                m=MainEvent(email=email, day1=True, day2=True, day1Image=path1, day2Image=path2, combo=True)
+                m.save()
         # elif purpose[:12]=="Fanpit Combo":
         #     print("Fanpit Combo")
         #     qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -1329,353 +1358,313 @@ def payment(request):
         #     m=MainEvent(email=email, day1=True, day2=True, day3=True, day1Image=path1, day2Image=path2, day3Image=path3, combo=True, 
         #                 premium1=True, premium2=True, premium3=True)
         #     m.save()
-        # elif purpose[:6]=="Fanpit":
-        #     print("Fanpit")
-        #     x=MainEvent.objects.filter(email=email)
-        #     day=purpose.split()[2]
-        #     if "REC" in purpose:
-        #         if x:
-        #             m = MainEvent.objects.get(email=email)
-        #             d1=m.day1
-        #             d2=m.day2
-        #             d3=m.day3
-        #             if day=='1':
-        #                 m.premium1=True
-        #                 d1=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day1_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day1Image=path
-        #             elif day=='2':
-        #                 m.premium2=True
-        #                 d2=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day2_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day2Image=path
-        #             elif day=='3':
-        #                 m.premium3=True
-        #                 d3=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day3_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day3Image=path
+        elif purpose[:6]=="Fanpit":
+            print("Fanpit")
+            x=MainEvent.objects.filter(email=email)
+            day=purpose.split()[2]
+            if "RIT" in purpose:
+                if x:
+                    m = MainEvent.objects.get(email=email)
+                    d1=m.day1
+                    d2=m.day2
+                    if day=='1':
+                        m.premium1=True
+                        d1=True
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"premiumday{day}"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day1_premium.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                        m.day1Image=path
+                    elif day=='2':
+                        m.premium2=True
+                        d2=True
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"premiumday{day}"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day2_premium.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                        m.day2Image=path
                     
-        #             if not d1:
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day1"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day1_standard.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=1)
-        #                 m.day1Image=path
-        #             if not d2:
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day2"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day2_standard.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=2)
-        #                 m.day2Image=path
-        #             if not d3:
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day3"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day3_standard.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=3)
-        #                 m.day3Image=path
-        #             m.day1=True
-        #             m.day2=True
-        #             m.day3=True
-        #             m.save()
-        #         else:
-        #             qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #             data = email+f"premiumday{day}"+get_random_string(length=8)
-        #             qr.add_data(data)
-        #             qr.make(fit=True)
-        #             img = qr.make_image(fill_color="black", back_color="white")
-        #             path = r"static/tickets/"+data+".png"
-        #             img.save(path)
-        #             img2 = Image.open(path)
-        #             new_image = img2.resize((274, 272))
-        #             new_image.save(path)
-        #             path_ticket = r"static/main_ticket/"+data+".png"
-        #             img1 = Image.open(r"static/ticket_template/day"+str(day)+"_premium.png")
-        #             img2 = Image.open(path)
-        #             img1.paste(img2, (80, 160), mask=img2)
-        #             img1.save(path_ticket)
-        #             send_mail_func(email=email, path=path, path_ticket=path_ticket,day=int(day), t=True)
+                    if not d1:
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"day1"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=1)
+                        m.day1Image=path
+                    if not d2:
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"day2"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=2)
+                        m.day2Image=path
+                    m.day1=True
+                    m.day2=True
+                    m.save()
+                else:
+                    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                    data = email+f"premiumday{day}"+get_random_string(length=8)
+                    qr.add_data(data)
+                    qr.make(fit=True)
+                    img = qr.make_image(fill_color="black", back_color="white")
+                    path = r"static/tickets/"+data+".png"
+                    img.save(path)
+                    # img2 = Image.open(path)
+                    # new_image = img2.resize((274, 272))
+                    # new_image.save(path)
+                    path_ticket = r"static/main_ticket/"+data+".png"
+                    # img1 = Image.open(r"static/ticket_template/day"+str(day)+"_premium.png")
+                    # img2 = Image.open(path)
+                    # img1.paste(img2, (80, 160), mask=img2)
+                    # img1.save(path_ticket)
+                    send_mail_func(email=email, path=path, path_ticket=path_ticket,day=int(day), t=True)
 
-        #             if day=='1':
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day2"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path2 = r"static/tickets/"+data+".png"
-        #                 img.save(path2)
-        #                 img2 = Image.open(path2)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path2)
-        #                 path_ticket2 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day2_standard.png")
-        #                 img2 = Image.open(path2)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket2)
-        #                 send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
+                    if day=='1':
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"day2"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path2 = r"static/tickets/"+data+".png"
+                        img.save(path2)
+                        # img2 = Image.open(path2)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path2)
+                        path_ticket2 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                        # img2 = Image.open(path2)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket2)
+                        send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
 
 
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day3"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path3 = r"static/tickets/"+data+".png"
-        #                 img.save(path3)
-        #                 img2 = Image.open(path3)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path3)
-        #                 path_ticket3 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day3_standard.png")
-        #                 img2 = Image.open(path3)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket3)
-        #                 send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
-        #                 m=MainEvent(email=email, day1=True, day2=True, day3=True,day1Image=path,day2Image=path2, day3Image=path3, premium1=True)
-        #             elif day=='2':
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day1"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path1 = r"static/tickets/"+data+".png"
-        #                 img.save(path1)
-        #                 img2 = Image.open(path1)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path1)
-        #                 path_ticket1 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day1_standard.png")
-        #                 img2 = Image.open(path1)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket1)
-        #                 send_mail_func(email=email, path=path1,path_ticket=path1, day=1)
+                        # qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        # data = email+f"day3"+get_random_string(length=8)
+                        # qr.add_data(data)
+                        # qr.make(fit=True)
+                        # img = qr.make_image(fill_color="black", back_color="white")
+                        # path3 = r"static/tickets/"+data+".png"
+                        # img.save(path3)
+                        # img2 = Image.open(path3)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path3)
+                        # path_ticket3 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day3_standard.png")
+                        # img2 = Image.open(path3)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket3)
+                        # send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
+                        m=MainEvent(email=email, day1=True, day2=True,day1Image=path,day2Image=path2, premium1=True)
+                    elif day=='2':
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"day1"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path1 = r"static/tickets/"+data+".png"
+                        img.save(path1)
+                        # img2 = Image.open(path1)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path1)
+                        path_ticket1 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                        # img2 = Image.open(path1)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket1)
+                        send_mail_func(email=email, path=path1,path_ticket=path1, day=1)
 
 
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day3"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path3 = r"static/tickets/"+data+".png"
-        #                 img.save(path3)
-        #                 img2 = Image.open(path3)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path3)
-        #                 path_ticket3 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day3_standard.png")
-        #                 img2 = Image.open(path3)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket3)
-        #                 send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
-        #                 m=MainEvent(email=email, day1=True,day2=True, day3=True, day2Image=path,day1Image=path1, day3Image=path3, premium2=True)
-        #             elif day=='3':
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day1"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path1 = r"static/tickets/"+data+".png"
-        #                 img.save(path1)
-        #                 img2 = Image.open(path1)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path1)
-        #                 path_ticket1 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day1_standard.png")
-        #                 img2 = Image.open(path1)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket1)
-        #                 send_mail_func(email=email, path=path1,path_ticket=path1, day=1)
+                        # qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        # data = email+f"day3"+get_random_string(length=8)
+                        # qr.add_data(data)
+                        # qr.make(fit=True)
+                        # img = qr.make_image(fill_color="black", back_color="white")
+                        # path3 = r"static/tickets/"+data+".png"
+                        # img.save(path3)
+                        # img2 = Image.open(path3)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path3)
+                        # path_ticket3 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day3_standard.png")
+                        # img2 = Image.open(path3)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket3)
+                        # send_mail_func(email=email, path=path3,path_ticket=path_ticket3, day=3)
+                        m=MainEvent(email=email, day1=True,day2=True, day2Image=path,day1Image=path1, premium2=True)
+                    # elif day=='3':
+                    #     qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                    #     data = email+f"day1"+get_random_string(length=8)
+                    #     qr.add_data(data)
+                    #     qr.make(fit=True)
+                    #     img = qr.make_image(fill_color="black", back_color="white")
+                    #     path1 = r"static/tickets/"+data+".png"
+                    #     img.save(path1)
+                    #     img2 = Image.open(path1)
+                    #     new_image = img2.resize((274, 272))
+                    #     new_image.save(path1)
+                    #     path_ticket1 = r"static/main_ticket/"+data+".png"
+                    #     img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                    #     img2 = Image.open(path1)
+                    #     img1.paste(img2, (80, 160), mask=img2)
+                    #     img1.save(path_ticket1)
+                    #     send_mail_func(email=email, path=path1,path_ticket=path1, day=1)
 
 
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"day2"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path2 = r"static/tickets/"+data+".png"
-        #                 img.save(path2)
-        #                 img2 = Image.open(path2)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path2)
-        #                 path_ticket2 = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day2_standard.png")
-        #                 img2 = Image.open(path2)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket2)
-        #                 send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
-        #                 m=MainEvent(email=email, day1=True,day2=True, day3=True, day3Image=path, day2Image=path2,day1Image=path1,premium3=True)
-        #             m.save()
-        #     else:
-        #         if x:
-        #             m = MainEvent.objects.get(email=email)
-        #             if day=='1':
-        #                 m.day1=True
-        #                 m.premium1=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day1_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day1Image=path
-        #                 m.save()
-        #             elif day=='2':
-        #                 m.day2=True
-        #                 m.premium2=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day2_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day2Image=path
-        #                 m.save()
-        #             elif day=='3':
-        #                 m.day3=True
-        #                 m.premium3=True
-        #                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #                 data = email+f"premiumday{day}"+get_random_string(length=8)
-        #                 qr.add_data(data)
-        #                 qr.make(fit=True)
-        #                 img = qr.make_image(fill_color="black", back_color="white")
-        #                 path = r"static/tickets/"+data+".png"
-        #                 img.save(path)
-        #                 img2 = Image.open(path)
-        #                 new_image = img2.resize((274, 272))
-        #                 new_image.save(path)
-        #                 path_ticket = r"static/main_ticket/"+data+".png"
-        #                 img1 = Image.open(r"static/ticket_template/day3_premium.png")
-        #                 img2 = Image.open(path)
-        #                 img1.paste(img2, (80, 160), mask=img2)
-        #                 img1.save(path_ticket)
-        #                 send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #                 m.day3Image=path
-        #                 m.save()
+                    #     qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                    #     data = email+f"day2"+get_random_string(length=8)
+                    #     qr.add_data(data)
+                    #     qr.make(fit=True)
+                    #     img = qr.make_image(fill_color="black", back_color="white")
+                    #     path2 = r"static/tickets/"+data+".png"
+                    #     img.save(path2)
+                    #     img2 = Image.open(path2)
+                    #     new_image = img2.resize((274, 272))
+                    #     new_image.save(path2)
+                    #     path_ticket2 = r"static/main_ticket/"+data+".png"
+                    #     img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                    #     img2 = Image.open(path2)
+                    #     img1.paste(img2, (80, 160), mask=img2)
+                    #     img1.save(path_ticket2)
+                    #     send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
+                    #     m=MainEvent(email=email, day1=True,day2=True, day3=True, day3Image=path, day2Image=path2,day1Image=path1,premium3=True)
+                    m.save()
+            else:
+                if x:
+                    m = MainEvent.objects.get(email=email)
+                    if day=='1':
+                        m.day1=True
+                        m.premium1=True
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"premiumday{day}"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day1_premium.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                        m.day1Image=path
+                        m.save()
+                    elif day=='2':
+                        m.day2=True
+                        m.premium2=True
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+f"premiumday{day}"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path = r"static/tickets/"+data+".png"
+                        img.save(path)
+                        # img2 = Image.open(path)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path)
+                        path_ticket = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day2_premium.png")
+                        # img2 = Image.open(path)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket)
+                        send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                        m.day2Image=path
+                        m.save()
+                    # elif day=='3':
+                    #     m.day3=True
+                    #     m.premium3=True
+                    #     qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                    #     data = email+f"premiumday{day}"+get_random_string(length=8)
+                    #     qr.add_data(data)
+                    #     qr.make(fit=True)
+                    #     img = qr.make_image(fill_color="black", back_color="white")
+                    #     path = r"static/tickets/"+data+".png"
+                    #     img.save(path)
+                    #     img2 = Image.open(path)
+                    #     new_image = img2.resize((274, 272))
+                    #     new_image.save(path)
+                    #     path_ticket = r"static/main_ticket/"+data+".png"
+                    #     img1 = Image.open(r"static/ticket_template/day3_premium.png")
+                    #     img2 = Image.open(path)
+                    #     img1.paste(img2, (80, 160), mask=img2)
+                    #     img1.save(path_ticket)
+                    #     send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                    #     m.day3Image=path
+                    #     m.save()
                     
-        #         else:
-        #             qr = qrcode.QRCode(version=1, box_size=10, border=5)
-        #             data = email+f"premiumday{day}"+get_random_string(length=8)
-        #             qr.add_data(data)
-        #             qr.make(fit=True)
-        #             img = qr.make_image(fill_color="black", back_color="white")
-        #             path = r"static/tickets/"+data+".png"
-        #             img.save(path)
-        #             img2 = Image.open(path)
-        #             new_image = img2.resize((274, 272))
-        #             new_image.save(path)
-        #             path_ticket = r"static/main_ticket/"+data+".png"
-        #             img1 = Image.open(r"static/ticket_template/day"+str(day)+r"_premium.png")
-        #             img2 = Image.open(path)
-        #             img1.paste(img2, (80, 160), mask=img2)
-        #             img1.save(path_ticket)
-        #             send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
-        #             if day=='1':
-        #                 m=MainEvent(email=email, day1=True, day1Image=path, premium1=True)
-        #             elif day=='2':
-        #                 m=MainEvent(email=email, day2=True, day2Image=path, premium2=True)
-        #             elif day=='3':
-        #                 m=MainEvent(email=email, day3=True, day3Image=path, premium3=True)
-        #             m.save()
+                else:
+                    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                    data = email+f"premiumday{day}"+get_random_string(length=8)
+                    qr.add_data(data)
+                    qr.make(fit=True)
+                    img = qr.make_image(fill_color="black", back_color="white")
+                    path = r"static/tickets/"+data+".png"
+                    img.save(path)
+                    # img2 = Image.open(path)
+                    # new_image = img2.resize((274, 272))
+                    # new_image.save(path)
+                    path_ticket = r"static/main_ticket/"+data+".png"
+                    # img1 = Image.open(r"static/ticket_template/day"+str(day)+r"_premium.png")
+                    # img2 = Image.open(path)
+                    # img1.paste(img2, (80, 160), mask=img2)
+                    # img1.save(path_ticket)
+                    send_mail_func(email=email, path=path,path_ticket=path_ticket, day=int(day), t=True)
+                    if day=='1':
+                        m=MainEvent(email=email, day1=True, day1Image=path, premium1=True)
+                    elif day=='2':
+                        m=MainEvent(email=email, day2=True, day2Image=path, premium2=True)
+                    # elif day=='3':
+                    #     m=MainEvent(email=email, day3=True, day3Image=path, premium3=True)
+                    m.save()
         elif purpose[:5]=="Event":
             print("Event")
             id = purpose.split()[1]
@@ -1704,7 +1693,7 @@ def payment(request):
     
     
 
-# http://localhost:8000/test?payment_id=MOJO3302E05Q52340490&payment_status=Credit&payment_request_id=d693d35d51cc4f59820f290f8991fccb
+# http://localhost:8000/payment?payment_id=MOJO3302E05Q52340490&payment_status=Credit&payment_request_id=d693d35d51cc4f59820f290f8991fccb
 def payment1(request):
     x=request.GET["payment_id"]
     instamojo_api.payment_details1(x)

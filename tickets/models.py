@@ -6,7 +6,7 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     regno = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
-    email = models.CharField(max_length=100, unique=True)
+    email = models.CharField(max_length=255, unique=True)
     phoneno = models.CharField(max_length=100)
     dept = models.CharField(max_length=100)
     collegename = models.CharField(max_length=100)
@@ -25,7 +25,7 @@ class User(models.Model):
 
 class Event(models.Model):
     id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=500)
     category_id = models.IntegerField()
     category = models.CharField(max_length=100)
     description = models.CharField(max_length=1000, default="")
@@ -79,7 +79,7 @@ class MainEvent(models.Model):
 
 class EventRegister(models.Model):
     id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=255)
     event_id = models.IntegerField()
     team_name = models.CharField(max_length=50, default="")
     team_mates =  models.CharField(max_length=5000, default="")
@@ -92,7 +92,7 @@ class EventRegister(models.Model):
 
 class TeamMates(models.Model):
    id = models.AutoField(primary_key=True)
-   team_mate = models.CharField(max_length=100)
+   team_mate = models.CharField(max_length=255)
    event_register_id = models.IntegerField()
    event_id = models.IntegerField()
    verified = models.BooleanField(default=False)
@@ -103,7 +103,7 @@ class TeamMates(models.Model):
 
 class ForgotPassword(models.Model):
     id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=255)
     password = models.CharField(max_length=100)
     token = models.CharField(max_length=100, default="")
 
@@ -112,7 +112,7 @@ class ForgotPassword(models.Model):
     
 class PremimumTicket(models.Model):
   id = models.AutoField(primary_key=True)
-  email = models.CharField(max_length=100)
+  email = models.CharField(max_length=255)
   day = models.IntegerField()
 
   def __str__(self):
@@ -131,7 +131,7 @@ class Transaction(models.Model):
    payment_status = models.CharField(max_length=100)
    payment_request_id = models.CharField(max_length=100)
    amount = models.IntegerField()
-   email = models.CharField(max_length=100)
+   email = models.CharField(max_length=255)
    status = models.CharField(max_length=100)
    purpose = models.CharField(max_length=100)
 
@@ -140,7 +140,7 @@ class Transaction(models.Model):
 
 class Merch(models.Model):
   id = models.AutoField(primary_key=True)
-  email = models.CharField(max_length=100)
+  email = models.CharField(max_length=255)
   size = models.CharField(max_length=100)
 
   def __str__(self):

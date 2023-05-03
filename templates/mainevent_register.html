@@ -13,8 +13,9 @@
 <body>
     <div class="">
         <div class="logos">
-            <img class="img1" src="../static/logos/logo1.png" />
             <img class="img2" src="../static/logos/rec-logo.png" />
+            <img class="img1" src="../static/logos/logo1.png" />
+            
         </div>
         <div class="form">
             <div class="title"> Main Event Register </div>
@@ -28,15 +29,29 @@
                     {% if day1 %}
                     <div class="input">
                         <input class="" type="radio" name="day" value="1">
-                        <label for="day1" class="">Day 1 STANDARD(Rs 775) </label><br>
+                        <label for="day1" class="">Day 1 STANDARD(Rs 250) </label><br>
                     </div>
                     {% endif %}
                     {% if day2 %}
                     <div class="input">
                         <input class="" type="radio" name="day" value="2">
-                        <label for="day2" class="">Day 2 STANDARD(Rs 775)</label><br>
+                        <label for="day2" class="">Day 2 STANDARD(Rs 250)</label><br>
                     </div>
                     {% endif %}
+
+                    {% if day1 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="5">
+                        <label for="day1" class="">Day 1 Premium (Rs 1500) </label><br>
+                    </div>
+                    {% endif %}
+                    {% if day2 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="6">
+                        <label for="day2" class="">Day 2 Premium (Rs 1500)</label><br>
+                    </div>
+                    {% endif %}
+
                     {% if show %}
                     <input class="submit " type="submit" value="PAY NOW">
                     {% endif %}
@@ -44,24 +59,30 @@
                 {% endif %}
 
 
-                <div class="input-container input">
+            <!----<div class="input-container input">
                 {% if rec %}
-                {% comment %} {% if day1 %}
+                {% if day1 %}
                     <div class="input">
-                        <input class="" type="radio" name="day" value="1">
-                        <label for="day1" class="">Download Day 1 Ticket </label><br>
+                        <input class="" type="radio" name="day" value="4">
+                        <label for="day1" class="">Day 1 and Day 2 Standard (Rs 250) </label><br>
                     </div>
                     {% endif %}
-                    {% if day2 %}
+
+                    {% if premium1 %}---->
                     <div class="input">
-                        <input class="" type="radio" name="day" value="2">
-                        <label for="day2" class="">Download Day 2 Ticket </label><br>
+                        <input class="" type="radio" name="day" value="5">
+                        <label for="day1" class="">Day 1 Premium (Rs 1500) </label><br>
                     </div>
-                    {% endif %} {% endcomment %}
-                {% if show %}
-                <input class="submit " type="submit" value="Download Tickets">
-                {% endif %}
-                
+                    {% endif %}
+                    {% if premium2 %}
+                    <div class="input">
+                        <input class="" type="radio" name="day" value="6">
+                        <label for="day2" class="">Day 2 Premium (Rs 1500)</label><br>
+                    </div>
+                    {% endif %}
+                    {% if show %}
+                    <input class="submit " type="submit" value="PAY NOW">
+                    {% endif %}
                 {% endif %}
 
                 

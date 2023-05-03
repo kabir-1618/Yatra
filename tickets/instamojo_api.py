@@ -51,7 +51,7 @@ def payment_request(email, amount, purpose):
         purpose=purpose,
         send_email=True,
         email=email,
-        redirect_url="http://localhost:8000/payment"
+        redirect_url="http://ticket.rityatra.com/payment"
         )
     # print the long URL of the payment request.
     # print(response['payment_request']['longurl'])

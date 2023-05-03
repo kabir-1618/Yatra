@@ -16,8 +16,9 @@
   <body>
     <div>
       <div class="logos">
-        <img class="img1" src="../static/logos/logo1.png" />
         <img class="img2" src="../static/logos/rec-logo.png" />
+        <img class="img1" src="../static/logos/logo1.png" />
+        
       </div>
       <div class="form">
         <div class="title">Welcome {{name}}</div>
@@ -64,26 +65,26 @@
         <div class="form">
           <div class="subtitle">All registrations have been closed!</div>
           
-          <!-- <div class="">
+          <div class="">
             {% for j in day2_events %}
             <div class="event">
               <p>{{j.category}} - {{j.name}}</p>
               {% if j.pay > 0 %}
-              <a class="submit" href="http://rec.rechargefest.org/events/{{j.id}}">Rs. {{j.pay}}</a>
+              <a class="submit" href="http://ticket.rityatra.com/events/{{j.id}}">Rs. {{j.pay}}</a>
               {% else %}
-              <a class="submit" href="http://rec.rechargefest.org/events/{{j.id}}">Free</a>
+              <a class="submit" href="http://ticket.rityatra.com/events/{{j.id}}">Free</a>
               {% endif %}
             </div>
             {% endfor %} {% for j in day3_events %}
             <div class="event">
               <p>{{j.category}} - {{j.name}}</p>
               {% if j.pay > 0 %}
-              <a class="submit" href="http://rec.rechargefest.org/events/{{j.id}}">Rs. {{j.pay}}</a>
+              <a class="submit" href="http://ticket.rityatra.com/events/{{j.id}}">Rs. {{j.pay}}</a>
               {% else %}
-              <a class="submit" href="http://rec.rechargefest.org/events/{{j.id}}">Free</a>
+              <a class="submit" href="http://ticket.rityatra.com/events/{{j.id}}">Free</a>
               {% endif %}
             </div>
-            {% endfor %} -->
+            {% endfor %} 
           </div>
         </div>
       </div>

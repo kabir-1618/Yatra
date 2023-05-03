@@ -38,7 +38,9 @@
                 
               </pre> -->
               <pre><div class="input ruletext">{{rules}}</div></pre>
+              {% if prize_there %}
               <pre><div class="input ruletext">{{prize}}</div></pre>
+              {% endif %}
               
                 {% if registrations >= max_reg %} Registrations Closed {% endif %}
                 {% if not has_ticket %} You Don't have Day {{day}} ticket {% endif %} 

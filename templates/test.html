@@ -23,7 +23,7 @@
       <div class="form">
         <div class="title">Welcome {{name}}</div>
         <div class="subtitle">Tickets you have bought</div>
-        <div class="subtitle">All the Proshow registrations have been closed!</div>
+        <!-- <div class="subtitle">All the Proshow registrations have been closed!</div> -->
         <br />
         <div class="input">
           {% if day1 and not premium1 %} Day 1 STANDARD
@@ -41,9 +41,9 @@
         <div class="subtitle">You have bought {{merch}} T-shirt.</div>
         {% endif %}
         
-        {% if day1 or day2 or day3 %}
+        <!-- {% if day1 or day2 or day3 %}
         <div class="subtitle">All the event registrations have been closed!</div>
-        {% endif %}
+        {% endif %} -->
         <br />
         <div class="subtitle">Events that you have registered are : </div>
         {% for i in events %} {{i}}
@@ -63,7 +63,7 @@
       
       <div class="events-div">
         <div class="form">
-          <div class="subtitle">All registrations have been closed!</div>
+          <!-- <div class="subtitle">All registrations have been closed!</div> -->
           
           <div class="">
             {% for j in day2_events %}

@@ -327,7 +327,7 @@ def test(request):
             d["premium1"]=False
             d["premium2"]=False
             d["premium3"]=False
-        if temp[-19:]=="@rajalakshmi.edu.in" or temp[-18:]=="@ritchennai.edu.in" or temp[-11:]=="rsb.edu.in":
+        if temp[-19:]=="@rajalakshmi.edu.in" or temp[-18:]=="@ritchennai.edu.in":
             d["show"]=not d["premium1"] or not d['premium2'] or not d["premium3"]
         else:
             d["show"]=not d["day1"] or not d["day2"] or not d["day3"]
@@ -410,7 +410,7 @@ def event(request, id):
             d["already_registered"]=True
         else:
             d["already_registered"]=False
-        if email[-19:]=="@rajalakshmi.edu.in" or email[-18:]=="@ritchennai.edu.in" or email[-11:]=="@rsb.edu.in":
+        if email[-19:]=="@rajalakshmi.edu.in" or email[-18:]=="@ritchennai.edu.in":
             d["has_ticket"]=False
         x=MainEvent.objects.filter(email=email)
         if x:
@@ -438,6 +438,10 @@ def event(request, id):
         d["message"]=""
         d["show1"]=False
         d["prize"]="- "+temp.prize.strip().replace(r"\n", "\n\n- ")
+        if temp.prize.strip()=='nan':
+            d["prize_there"]=False
+        else:
+            d["prize_there"]=True
         d["register_there"]=True
         if d["pay"]==-1:
             d["register_there"]=False
@@ -664,11 +668,11 @@ def mainevent(request):
             return redirect("login")
         email=payload['id']
         rec=False
-        if email[-19:]=="@rajalakshmi.edu.in" or email[-18:]=="@ritchennai.edu.in" or email[-11:]=="@rsb.edu.in":
+        if email[-19:]=="@rajalakshmi.edu.in" or email[-18:]=="@ritchennai.edu.in":
             # return HttpResponse("<h1>REC Students no need to buy tickets for the Main Event</h1>")
             rec=True
         if request.method=="POST":
-            if rec:
+            if False:
                 m=MainEvent.objects.filter(email=email)
                 if not m:
                     qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -827,15 +831,60 @@ def mainevent(request):
             #         return redirect(payment_url)
             elif day==4 and d["day1"] and d["day2"]:
                 if rec:
-                    amount = 250
-                    # amount = 10
-                    purpose = 'Combo Ticket RIT'
+                    # amount = 250
+                    # # amount = 10
+                    # purpose = 'Combo Ticket RIT'
 
-                    # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
-                    payment_url = instamojo_api.payment_request(email, amount, purpose)
-                    if payment_url is None:
-                        return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
-                    return redirect(payment_url)
+                    # # payment_url = instamojo_api.create_instamojo_payment_request(amount, purpose, buyer_name, buyer_email, redirect_url)
+                    # payment_url = instamojo_api.payment_request(email, amount, purpose)
+                    # if payment_url is None:
+                    #     return HttpResponse("<h1>Not able to load payment url. Sorry for the inconvenience</h1>")
+                    # return redirect(payment_url)
+
+                    m=MainEvent.objects.filter(email=email)
+                    if not m:
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+"day1"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path1 = r"static/tickets/"+data+".png"
+                        img.save(path1)
+                        # print("Some error")
+                        # img2 = Image.open(path1)
+                        # # print("Some error")
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path1)
+                        # print("Some error")
+                        path_ticket1 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day1_standard.png")
+                        # img2 = Image.open(path1)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket1)
+                        
+
+                        qr = qrcode.QRCode(version=1, box_size=10, border=5)
+                        data = email+"day2"+get_random_string(length=8)
+                        qr.add_data(data)
+                        qr.make(fit=True)
+                        img = qr.make_image(fill_color="black", back_color="white")
+                        path2 = r"static/tickets/"+data+".png"
+                        img.save(path2)
+                        # img2 = Image.open(path2)
+                        # new_image = img2.resize((274, 272))
+                        # new_image.save(path2)
+                        path_ticket2 = r"static/main_ticket/"+data+".png"
+                        # img1 = Image.open(r"static/ticket_template/day2_standard.png")
+                        # img2 = Image.open(path2)
+                        # img1.paste(img2, (80, 160), mask=img2)
+                        # img1.save(path_ticket2)
+                        m=MainEvent.objects.filter(email=email)
+                        if not m:
+                            m=MainEvent(email=email, day1=True, day2=True, day1Image=path1, day2Image=path2)
+                            m.save()
+                            send_mail_func(email=email, path=path1,path_ticket=path_ticket1, day=1)
+                            send_mail_func(email=email, path=path2,path_ticket=path_ticket2, day=2)
+
             #     else:
             #         amount = 1650
             #         # amount = 10

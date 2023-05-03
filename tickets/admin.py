@@ -24,5 +24,8 @@ admin.site.register(TeamMates)
 admin.site.register(ForgotPassword)
 admin.site.register(PremimumTicket)
 admin.site.register(Category)
-admin.site.register(Transaction)
+@admin.register(Transaction)
+class MainEventAdmin(admin.ModelAdmin):
+    search_fields=["email"]
+    list_display = ['email', 'payment_id', 'payment_status', 'payment_request_id', "amount"]
 admin.site.register(Merch)

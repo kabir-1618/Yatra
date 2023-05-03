@@ -155,7 +155,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = 'yatratickets1@ritchennai.edu.in'
-EMAIL_HOST_USER = 'tickets9.yatra@ritchennai.edu.in'
+EMAIL_HOST_USER = 'tickets5.yatra@ritchennai.edu.in'
 EMAIL_HOST_PASSWORD="RIT@2023"
 
 TAILWIND_APP_NAME = 'theme'

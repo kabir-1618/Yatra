@@ -29,7 +29,7 @@ def qrcodescanin(request):
       today = date.today()
       data=request.query_params
       s="static/tickets/"+data["data"]+".png"
-      if today.month==3 and today.day==23 and today.year==2023:
+      if today.month==5 and today.day==1 and today.year==2023:
          if MainEvent.objects.filter(day1Image=s):
             m=MainEvent.objects.get(day1Image=s)
             email=m.email
@@ -50,8 +50,8 @@ def qrcodescanin(request):
             print(d)
             
             return Response(d)
-         # return Response([{"message":"Invalid"}])
-      if today.month==3 and today.day==24 and today.year==2023:
+         return Response([{"message":"Invalid"}])
+      if today.month==5 and today.day==2 and today.year==2023:
          
          if MainEvent.objects.filter(day2Image=s):
             m=MainEvent.objects.get(day2Image=s)
@@ -71,30 +71,10 @@ def qrcodescanin(request):
                return Response(d)
             return Response(d)
          # return Response([{"message":"Invalid"}])
-      if today.month==3 and (today.day==25 or today.day==24) and today.year==2023:
-         
-         if MainEvent.objects.filter(day3Image=s):
-            m=MainEvent.objects.get(day3Image=s)
-            email=m.email
-            u = User.objects.filter(email=email).values()
-            d=[{}]
-            d[0]["message"]="Valid"
-            d[0]["day"]=3
-            for i in u[0]:
-               d[0][i]=u[0][i]
-            if m.premium3:
-               d[0]['premium']="Yes"
-            else:
-               d[0]['premium']='No'
-            if m.day3Scan==1:
-               d[0]["message"]="Duplicate"
-               return Response(d)
-            return Response(d)
-
          return Response([{"message":"Invalid"}])
 
 
-      return Response([{"message":"Abe saale aaj toh culturals ka din hi nahi hain aaj kyu scan kar raha hain tu"}])
+      return Response([{"message":"Today culturals is not there."}])
    except Exception as e:
       print(e)
       return Response([{"message":"Ask the data administrator to verify. There is some problem I guess"}])
